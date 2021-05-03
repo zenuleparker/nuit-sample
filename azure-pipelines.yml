@@ -1,0 +1,29 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+
+- task: BrowserStackConfig@0
+  displayName: 'BrowserStack configuration setup'
+  inputs:
+    BrowserStackServiceEndPoint: 'BrowserStack Connection'
+    browserstackLocal: true
+
+    
+- task: VSTest@2
+  displayName: 'VsTest - testAssemblies'
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
