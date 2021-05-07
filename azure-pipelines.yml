@@ -5,6 +5,13 @@ pool:
   name: 'Default'
 
 steps:
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-2019'
+
+steps:
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
 
@@ -14,7 +21,7 @@ steps:
 - task: BrowserStackConfig@0
   displayName: 'BrowserStack configuration setup'
   inputs:
-    BrowserStackServiceEndPoint: 'BrowserStack Connection'
+    BrowserStackServiceEndPoint: 'BStack Demo Account'
     browserstackLocal: true
 
     
